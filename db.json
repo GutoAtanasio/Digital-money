@@ -15,6 +15,42 @@
       "transactionType": "withdraw",
       "date": "07/06/2025",
       "id": "8bca"
+    },
+    {
+      "id": "a8f5",
+      "title": "Portão preto",
+      "price": "300",
+      "transactionType": "output",
+      "category": "lazer"
+    },
+    {
+      "id": "af58",
+      "title": "Digital College",
+      "price": "344",
+      "transactionType": "output",
+      "category": "educação"
+    },
+    {
+      "id": "0083",
+      "title": "Almoço",
+      "price": "300",
+      "transactionType": "output",
+      "category": "alimentação"
+    },
+    {
+      "id": "d9c8",
+      "title": "Salário",
+      "price": "5000",
+      "transactionType": "input",
+      "category": "Fonte"
+    },
+    {
+      "id": "a96a",
+      "title": "Aluguel",
+      "price": "550",
+      "transactionType": "input",
+      "category": "Renda passiva",
+      "date": "07/07/2025"
     }
   ]
 }

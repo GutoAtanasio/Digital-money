@@ -5,9 +5,43 @@ import {
   DialogBackdrop,
   DialogPanel,
 } from "@headlessui/react";
+import axios from "axios";
+import { format } from "date-fns";
 import { ArrowCircleDown, ArrowCircleUp } from "phosphor-react";
+import { useState } from "react";
 
 export default function Modal({ open, setOpen }) {
+  const [title, setTitle] = useState("");
+  const [price, setPrice] = useState("");
+
+  // O tipo da transição, que pode ser "input" (entrada) ou "output" (saida)
+  const [type, setType] = useState("input");
+  const [category, setCategory] = useState("");
+
+  console.log(format(new Date(), "dd/MM/yyyy"))
+
+  async function handleSubmit() {
+    await axios.post("http://localhost:3000/transactions", {
+      title: title,
+      price: price,
+      transactionType: type,
+      category: category,
+      date: format(new Date(), "dd/MM/yyyy"),
+    })
+  }
+
+  function handleChangeTitle(event) {
+    setTitle(event.target.value);
+  }
+  function handleChangePrice(event) {
+    setPrice(event.target.value);
+  }
+  function handleChangeType(event) {
+    setType(event);
+  }
+  function handleChangeCategory(event) {
+    setCategory(event.target.value);
+  }
 
   return (
     <div>
@@ -33,14 +67,17 @@ export default function Modal({ open, setOpen }) {
                       <input
                         className="w-full h-[50px] bg-gray-200 placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-4 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
                         placeholder="Titulo"
+                        onChange={handleChangeTitle}
                       />
                       <input
                         className="w-full h-[50px] bg-gray-200 placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-4 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
                         placeholder="Preço"
+                        onChange={handleChangePrice}
                       />
                       <div className="flex justify-between">
                         <button
-                          className="px-4 py-2 cursor-pointer w-[49%] h-[50px] flex gap-4 items-center justify-center transition ease-in-out duration-150 bg-emerald-100 hover:bg-emerald-200}"
+                          className={`px-4 py-2 cursor-pointer w-[49%] h-[50px] flex gap-4 items-center justify-center transition ease-in-out duration-150 ${type === "input" ? " bg-emerald-100 hover:bg-emerald-200" : "bg-gray-100 hover:bg-gray-200"}}`}
+                          onClick={() => handleChangeType("input")}
                         >
                           <ArrowCircleUp
                             size={20}
@@ -50,7 +87,8 @@ export default function Modal({ open, setOpen }) {
                         </button>
 
                         <button
-                          className="px-4 py-2 cursor-pointer w-[49%] h-[50px] flex gap-4 items-center justify-center transition ease-in-out duration-150 bg-red-100 hover:bg-red-200"
+                          className={`px-4 py-2 cursor-pointer w-[49%] h-[50px] flex gap-4 items-center justify-center transition ease-in-out duration-150 ${type === "output" ? " bg-red-100 hover:bg-red-200" : "bg-gray-100 hover:bg-gray-200"}}`}
+                          onClick={() => handleChangeType("output")}
                         >
                           <ArrowCircleDown
                             size={20}
@@ -63,6 +101,7 @@ export default function Modal({ open, setOpen }) {
                         <input
                           className="w-full h-[50px] bg-gray-200 placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-4 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
                           placeholder="Categoria"
+                          onChange={handleChangeCategory}
                         />
                       </div>
                     </div>
@@ -70,6 +109,7 @@ export default function Modal({ open, setOpen }) {
                       <button
                         type="button"
                         className="w-full h-[50px] items-center justify-center rounded-md bg-emerald-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-emerald-500 cursor-pointer"
+                        onClick={handleSubmit}
                       >
                         Cadastrar
                       </button>

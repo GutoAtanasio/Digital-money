@@ -19,8 +19,8 @@ function DashbordPage() {
         const transactionsData = await axios.get("http://localhost:3000/transactions");
         setTransactions(transactionsData.data);
     }
-// getTransactions();
-useEffect(() => {getTransactions();}, []);
+    // getTransactions();
+    useEffect(() => { getTransactions(); }, []);
 
 
     return (
@@ -58,23 +58,23 @@ useEffect(() => {getTransactions();}, []);
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-100">
-                           {transactions.map((transaction) => {
-                            return (
-                                 <tr className="hover:bg-gray-50 bg-white">
-                                <td className="px-6 py-4">{transaction.title}</td>
-                                <td className="px-6 py-4 text-green-500 font-medium">
-                                    {transaction.price}
-                                </td>
-                                <td className="px-6 py-4">{transaction.category}</td>
-                                <td className="px-6 py-4">{transaction.date}</td>
-                                <td className="px-6 py-4">
-                                    <button className="text-blue-500 hover:text-blue-700">
-                                        <TrashSimple size={24} weight="fill" className="text-red-500" />
-                                    </button>
-                                </td>
-                            </tr>
-                            )
-                           })}
+                            {transactions.map((transaction, index) => {
+                                return (
+                                    <tr key={index} className="hover:bg-gray-50 bg-white">
+                                        <td className="px-6 py-4">{transaction.title}</td>
+                                        <td className="px-6 py-4 text-green-500 font-medium">
+                                            {transaction.price}
+                                        </td>
+                                        <td className="px-6 py-4">{transaction.category}</td>
+                                        <td className="px-6 py-4">{transaction.date}</td>
+                                        <td className="px-6 py-4">
+                                            <button className="text-blue-500 hover:text-blue-700">
+                                                <TrashSimple size={24} weight="fill" className="text-red-500" />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                )
+                            })}
                         </tbody>
                     </table>
                 </div>
