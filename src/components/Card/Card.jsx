@@ -8,7 +8,7 @@ function Card({ title = "Entradas", icon, amount, bgColor, textColor }) {
                 {icon}
             </div>
             <strong className="text-3xl font-medium mt-1">
-                {amount}
+                {amount.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
             </strong>
         </div>
     )

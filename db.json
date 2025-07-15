@@ -9,14 +9,6 @@
       "date": "17/05/2025"
     },
     {
-      "title": "Café em barras de ouro",
-      "price": 908,
-      "category": "Alimentacao",
-      "transactionType": "withdraw",
-      "date": "07/06/2025",
-      "id": "8bca"
-    },
-    {
       "id": "a8f5",
       "title": "Portão preto",
       "price": "300",
@@ -24,33 +16,36 @@
       "category": "lazer"
     },
     {
-      "id": "af58",
-      "title": "Digital College",
-      "price": "344",
-      "transactionType": "output",
-      "category": "educação"
-    },
-    {
-      "id": "0083",
-      "title": "Almoço",
-      "price": "300",
-      "transactionType": "output",
-      "category": "alimentação"
-    },
-    {
-      "id": "d9c8",
-      "title": "Salário",
-      "price": "5000",
+      "id": "bc90",
+      "title": "salario",
+      "price": "50000",
       "transactionType": "input",
-      "category": "Fonte"
+      "category": "entrada",
+      "date": "14/07/2025"
     },
     {
-      "id": "a96a",
-      "title": "Aluguel",
-      "price": "550",
+      "id": "ed98",
+      "title": "alugueis",
+      "price": "2000",
       "transactionType": "input",
-      "category": "Renda passiva",
-      "date": "07/07/2025"
+      "category": "renda",
+      "date": "14/07/2025"
+    },
+    {
+      "id": "b0ef",
+      "title": "aluguel moto",
+      "price": "500",
+      "transactionType": "input",
+      "category": "renda",
+      "date": "14/07/2025"
+    },
+    {
+      "id": "7689",
+      "title": "lanche",
+      "price": "200",
+      "transactionType": "output",
+      "category": "gastos",
+      "date": "14/07/2025"
     }
   ]
 }
