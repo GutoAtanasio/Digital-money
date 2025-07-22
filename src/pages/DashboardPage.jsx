@@ -3,19 +3,26 @@ import {
     ArrowCircleUp,
     ArrowCircleUpLeft,
     CurrencyDollar,
+    Moon,
+    Sun,
     TrashSimple,
 } from "phosphor-react";
 import Modal from "../components/Modal/Modal";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Card from "../components/card/Card";
 import axios from "axios";
 import { API_BADE_URL } from "../utils/constants";
 import DropdownOpitions from "../components/DropdownOpition/DropdownOpitions";
+import { ThemeContext } from "../contexts/ThemeContext";
 
 function DashbordPage() {
     const [open, setOpen] = useState(false);
-    const [transactions, setTransactions] = useState([])
-    console.log(transactions);
+    const [transactions, setTransactions] = useState([]);
+
+    const {darkMode, handleChangeDarkMode} = useContext(ThemeContext);
+    console.log (darkMode)
+
+    
 
     async function getTransactions() {
         const transactionsData = await axios.get("http://localhost:3000/transactions");
@@ -33,15 +40,29 @@ function DashbordPage() {
         await axios.delete(API_BADE_URL + `/transactions/${id}`);
     }
 
-    const allInputsSum = transactions.filter((transactions) => transactions.transactionType === "input").reduce((prev, curr) =>{
+    const allInputsSum = transactions.filter((transactions) => transactions.transactionType === "input").reduce((prev, curr) => {
         return prev + parseFloat(curr.price);
-    },0);
-    console.log(allInputsSum);
+    }, 0);
+
+    const allOutputsSum = transactions.filter((transactions) => transactions.transactionType === "output").reduce((prev, curr) => {
+        return prev + parseFloat(curr.price);
+    }, 0);
+
+    const total = allInputsSum - allOutputsSum;
 
 
     return (
         <div className="min-h-screen flex flex-col bg-gray-100">
             <header className="w-full bg-pink-700 py-6 pb-32 md:px-6">
+                <div className="flex justify-end items-center mb-4">
+                    <button className="bg-pink-600 p-2 rounded cursor-pointer"
+                        onClick={handleChangeDarkMode}
+                    >
+                        {darkMode === true
+                            ? <Sun size={24} className="text-white" />
+                            : <Moon size={24} className="text-white" />}
+                    </button>
+                </div>
                 <div className="container mx-auto flex justify-between items-center">
                     <h1 className="text-white text-xl md:text-2xl font-bold">
                         digital money
@@ -57,13 +78,30 @@ function DashbordPage() {
                 <div className="flex justify-end pt-4 md:mt-0">
                     <DropdownOpitions />
                 </div>
-                
+
             </header>
-            <main className="flex-1 container mx-auto py-8 md:px-6">
+            <main className={`flex-1 container mx-auto py-8 md:px-6 ${darkMode ? "bg-slate-900" : "bg-white"}`}>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-5 -mt-24">
-                    <Card title="Entradas" icon={<ArrowCircleUp className="text-green-500" size={32} />} amount={allInputsSum} bgColor="bg-white" />
-                    <Card title="Saídas" icon={<ArrowCircleDown className="text-red-500" size={32} />} amount={0} bgColor="bg-white" />
-                    <Card title="Total" icon={<CurrencyDollar size={32} />} amount={0} bgColor="bg-emerald-500" textColor="text-white" />
+                    <Card title="Entradas" 
+                    icon={<ArrowCircleUp className="text-green-500" size={32} />} 
+                    amount={allInputsSum} 
+                    textColor={darkMode ? "text-white" : "text-gray-800"}
+                    bgColor={darkMode ? "bg-slate-800" : "bg-white"}
+                    />
+
+                    <Card title="Saídas" 
+                    icon={<ArrowCircleDown className="text-red-500" size={32} />} 
+                    amount={allOutputsSum} 
+                    textColor={darkMode ? "text-white" : "text-gray-800"}
+                    bgColor={darkMode ? "bg-slate-800" : "bg-white"} 
+                    />
+
+                    <Card title="Total" 
+                    icon={<CurrencyDollar size={32} />} 
+                    amount={total} 
+                    bgColor="bg-emerald-500" 
+                    textColor="text-white" 
+                    />
 
                 </div>
                 <div className="overflow-x-auto mt-8">
@@ -81,7 +119,7 @@ function DashbordPage() {
                         <tbody className="divide-y divide-gray-100">
                             {transactions.map((transaction, index) => {
                                 return (
-                                    <tr key={index} className="hover:bg-gray-50 bg-white">
+                                    <tr key={index} className={darkMode ? "bg-slate-800 text-white" : "hover:bg-gray-50 bg-white"}>
                                         <td className="px-6 py-4">{transaction.title}</td>
                                         <td className="px-6 py-4 text-green-500 font-medium">
                                             {transaction.price}
@@ -101,7 +139,10 @@ function DashbordPage() {
                 </div>
             </main>
 
-            <Modal open={open} setOpen={setOpen} />
+            <Modal 
+            open={open} 
+            setOpen={setOpen} 
+            />
         </div>
     );
 }
